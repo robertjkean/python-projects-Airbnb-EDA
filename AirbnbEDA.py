@@ -3,10 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import (FormatStrFormatter) 
 
-folder_path = 'C:\\Users\\RobertKean\\Documents\\matplotlib_project\\AirbnbEDA\\'
-
 # read in detailed listings data
-listing_data_detailed = pd.read_csv(folder_path + 'listingsdetailed.csv')
+listing_data_detailed = pd.read_csv('.\Data\listingsdetailed.csv')
 
 # create detailed listings dataframe
 listing_data_detailed_df = pd.DataFrame(listing_data_detailed)
