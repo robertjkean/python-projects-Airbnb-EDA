@@ -1,7 +1,6 @@
 import numpy as np
 import plotly.express as px
 import pandas as pd
-import plotly.express as px
 
 listing_data = pd.read_csv('.\Data\listingsdetailed.csv')
 
