@@ -15,7 +15,7 @@ np.random.seed(21)
 listing_data = pd.read_csv('.\Data\listingsdetailed.csv')
 
 # remove rows with no description to process
-listing_data = listing_data[listing_data['neighborhood_overview'].notna()]
+listing_data = listing_data[listing_data['neighborhood_overview'].notna()].reset_index(drop=True)
 
 # remove unwanted text items from the description
 patterns = ['<br /><br />','<br />â€¢','<br />',' <br />','<br /> ','/>']
@@ -89,14 +89,9 @@ if __name__ == '__main__':
             if j == 0:
                 topic_data = pd.concat([topic_data, pd.Series([topic])], axis=0, ignore_index=True)
         
+    listing_data['topic_number'] = topic_data[0]
 
-    listing_data = pd.concat([listing_data, topic_data], axis=1)
-    print(listing_data.head())
-
-    listing_data = listing_data.rename(columns={0: 'topic_number'})
-    # topics dict
-    print(listing_data.head())
-    
+    # topics dict    
     topics_dict = {
         0.0: 'Transport and Central Ammenities',
         1.0: 'Parks and Gardens',
@@ -108,15 +103,7 @@ if __name__ == '__main__':
 
     topics_df = pd.DataFrame(topics_dict.items(), columns=['topic_number', 'Listing Category'])
 
-    listing_data = listing_data.merge(topics_df, how="inner",on="topic_number")
+    listing_data = listing_data.merge(topics_df, on="topic_number", how="inner")
 
     listing_data.to_csv('modelling_output.csv', encoding='utf-8', index=False)
-
-
-
-# visualise results
-
-# use results
-
-# generate 2nd geomap with results per property cat
 
