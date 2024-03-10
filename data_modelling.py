@@ -90,12 +90,13 @@ if __name__ == '__main__':
                 topic_data = pd.concat([topic_data, pd.Series([topic])], axis=0, ignore_index=True)
         
 
-    listing_data = pd.concat([listing_data, topic_data], axis=1, ignore_index=True)
+    listing_data = pd.concat([listing_data, topic_data], axis=1)
     print(listing_data.head())
 
-    listing_data = listing_data.rename(columns={36: 'topic_number'})
+    listing_data = listing_data.rename(columns={0: 'topic_number'})
     # topics dict
-
+    print(listing_data.head())
+    
     topics_dict = {
         0.0: 'Transport and Central Ammenities',
         1.0: 'Parks and Gardens',
@@ -107,27 +108,9 @@ if __name__ == '__main__':
 
     topics_df = pd.DataFrame(topics_dict.items(), columns=['topic_number', 'Listing Category'])
 
-    result_df = listing_data.merge(topics_df, how="inner",on="topic_number")
+    listing_data = listing_data.merge(topics_df, how="inner",on="topic_number")
 
-    print(result_df.head())
-
-    result_df.loc[result_df['host_is_superhost'] == 't', 'host_is_superhost'] = "Yes"
-    result_df.loc[result_df['host_is_superhost'] == 'f', 'host_is_superhost'] = "No"
-
-    fig = px.scatter_mapbox(listing_data, lat="latitude", lon="longitude", hover_name="neighbourhood_cleansed", hover_data=["neighbourhood_cleansed", "Listing Category", "host_is_superhost", "bathrooms_text", "beds"],
-                        color='Listing Category', size_max=1, opacity=0.75, zoom=9, height=600, 
-                        labels={
-                            "neighbourhood_cleansed": "London Borough",
-                            "latitude": "Latitude",
-                            "longitude": "Longitude",
-                            "host_is_superhost": "Super Host",
-                            "bathrooms_text": "Bathrooms",
-                            "beds": "Bedrooms"
-                        })
-    
-    fig.update_layout(mapbox_style="open-street-map")
-    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-    fig.show()
+    listing_data.to_csv('modelling_output.csv', encoding='utf-8', index=False)
 
 
 
