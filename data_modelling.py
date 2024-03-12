@@ -110,6 +110,6 @@ if __name__ == '__main__':
     # inner join listing data and topics data frames to achieve one topic description per row
     # results output to csv file to allow data visualisation updates without the need to re-run lda which takes time
     listing_data = listing_data.merge(topics_df, on="topic_number", how="inner")
-    listing_data.drop(['neighborhood_overview'], axis=1)
+    listing_data.drop(['neighborhood_overview', 'tokenized_description','token_description_clean'], axis=1)
     listing_data.to_csv('modelling_output.csv', encoding='utf-8', index=False)
 
